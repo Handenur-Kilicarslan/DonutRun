@@ -9,7 +9,7 @@ public class CameraManager : Singleton<CameraManager>
 
     void Start()
     {
-        FollowCam.Follow = LevelManager.Instance.MainPlayer.transform;
+       // FollowCam.Follow = LevelManager.Instance.MainPlayer.transform;
     }
 
     void Update()

@@ -13,7 +13,7 @@ public class LevelManager : Singleton<LevelManager>
     [SerializeField] public List<Scriptable> levels = new List<Scriptable>();
     //[SerializeField] public List<GameObject> level = new List<GameObject>();
 
-    public GameObject MainPlayer;
+    //public GameObject MainPlayer;
 
     void Start()
     {
@@ -33,7 +33,7 @@ public class LevelManager : Singleton<LevelManager>
 
         //level[whichlevel].SetActive(true); //Level Set Active?
         Instantiate(levels[whichlevel].LevelPrefab, Vector3.zero, Quaternion.identity); //Level Instantiate
-        MainPlayer = Instantiate(levels[whichlevel].Player, Vector3.zero, Quaternion.identity); //Player Instantiate
+        //MainPlayer = Instantiate(levels[whichlevel].Player, Vector3.zero, Quaternion.identity); //Player Instantiate
 
         //levelText.text = "Level " + (whichlevel + 1);
     }

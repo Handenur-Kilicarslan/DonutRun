@@ -6,5 +6,5 @@ using UnityEngine;
 public class Scriptable : ScriptableObject
 {
     public GameObject LevelPrefab;
-    public GameObject Player;
+   // public GameObject Player;
 }

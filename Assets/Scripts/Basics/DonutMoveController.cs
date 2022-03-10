@@ -1,23 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
-using DG.Tweening;
 
-public class PlayerController : MonoBehaviour
+public class DonutMoveController : MonoBehaviour
 {
     [SerializeField] private int MoveSpeedLR = 14;
-
     public float MoveSpeedForward;
     [SerializeField] private float desiredBoundaries = 2;
     private bool Move = false;
+   
 
-    private void Start()
-    {
-
-    }
-
-    private void Update()
+    // Update is called once per frame
+    void Update()
     {
         if (Move)
         {
@@ -38,27 +32,14 @@ public class PlayerController : MonoBehaviour
         Move = true;
     }
 
-    private void Win()
-    {
-        Move = false;
-    }
-
-    private void Lose()
-    {
-        Move = false;
-    }
-
     private void OnEnable()
     {
         GameManager.OnGameStart += CharacterMove;
-        GameManager.OnGameWin += Win;
-        GameManager.OnGameLose += Lose;
     }
 
     private void OnDisable()
     {
         GameManager.OnGameStart -= CharacterMove;
-        GameManager.OnGameWin -= Win;
-        GameManager.OnGameLose -= Lose;
     }
+
 }
