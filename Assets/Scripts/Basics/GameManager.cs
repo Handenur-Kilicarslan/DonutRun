@@ -9,7 +9,11 @@ public class GameManager : Singleton<GameManager>
     public static Action OnGameWin;
     public static Action OnGameLose;
 
-   public void StartGame()
+    public void Start()
+    {
+        Application.targetFrameRate = 60;
+    }
+    public void StartGame()
     {
         OnGameStart?.Invoke();
         //Elephant level started
