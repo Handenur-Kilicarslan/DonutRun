@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class PlayerActionsController : MonoBehaviour
 {
@@ -48,7 +49,20 @@ public class PlayerActionsController : MonoBehaviour
         {
             Policeman.policeMoving = false;
             PathFollower.Instance.speed -= 2;
+            DistributeDonuts();
+        }
+        if(other.gameObject.CompareTag("Levha"))
+        {
+            for(int i = 14; i<Donuts.Count; i++)
+            {
+                Donuts[i].SetActive(false);
+                //onun transformundan donutlar˝ d¸˛¸r ama donut varsa activeself ile kontrol edersin
+            }
+        }
 
+        if (other.gameObject.TryGetComponent(out WallDown wall))
+        {
+            wall.MakeWallFallDown();
         }
     }
 
@@ -66,9 +80,9 @@ public class PlayerActionsController : MonoBehaviour
     {
         int last = DonutLastControl(Donuts);
 
-        for(int i = 1; i<last; i++)
+        for(int i = 1; i>last; i--)
         {
-            Debug.Log("d›STRUBUTE THEM TO HOMELESSES");
+            Donuts[i].transform.DOMoveX(Donuts[i].transform.position.x + 3, 5f);
         }
     }
     public int DonutLastControl(List<GameObject> Donuts)
