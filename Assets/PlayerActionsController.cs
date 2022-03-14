@@ -47,6 +47,8 @@ public class PlayerActionsController : MonoBehaviour
         if (other.gameObject.CompareTag("End"))
         {
             Policeman.policeMoving = false;
+            PathFollower.Instance.speed -= 2;
+
         }
     }
 
@@ -60,7 +62,15 @@ public class PlayerActionsController : MonoBehaviour
     }
 
 
+    public void DistributeDonuts()
+    {
+        int last = DonutLastControl(Donuts);
 
+        for(int i = 1; i<last; i++)
+        {
+            Debug.Log("dÝSTRUBUTE THEM TO HOMELESSES");
+        }
+    }
     public int DonutLastControl(List<GameObject> Donuts)
     {
         int lastIndex = 0;

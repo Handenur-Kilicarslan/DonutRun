@@ -18096,9 +18096,9 @@ MonoBehaviour:
     _bezierPath:
       points:
       - {x: 3, y: 0, z: -5}
-      - {x: 3, y: 0, z: 35}
-      - {x: 3, y: 0, z: 115}
-      - {x: 3, y: 0, z: 155}
+      - {x: 3, y: 0, z: 48.72195}
+      - {x: 3, y: 0, z: 156.16585}
+      - {x: 3, y: 0, z: 209.8878}
       isClosed: 0
       space: 0
       controlMode: 3
@@ -18112,7 +18112,7 @@ MonoBehaviour:
       - 0
       globalNormalsAngle: 90
       flipNormals: 0
-    vertexPathUpToDate: 1
+    vertexPathUpToDate: 0
     vertexPathMaxAngleError: 0.3
     vertexPathMinVertexSpacing: 0.01
     showTransformTool: 1
