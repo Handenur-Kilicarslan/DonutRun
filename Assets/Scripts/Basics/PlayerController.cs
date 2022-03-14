@@ -6,7 +6,7 @@ using DG.Tweening;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private int MoveSpeedLR = 14;
+    [SerializeField] private float MoveSpeedLR = 14;
 
     public float MoveSpeedForward;
     [SerializeField] private float desiredBoundaries = 2;
@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     private void TouchInputFunction()
     {
         transform.position += Vector3.right * TouchInput.Instance.horizontal * MoveSpeedLR * Time.deltaTime;
-        float xPos = Mathf.Clamp(transform.position.x, -desiredBoundaries, desiredBoundaries);
+        float xPos = Mathf.Clamp(transform.position.x, -1.7f, 8.5f);
         transform.position = new Vector3(xPos, transform.position.y, transform.position.z);
     }
 
