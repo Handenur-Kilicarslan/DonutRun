@@ -17,9 +17,17 @@ public class Policeman : MonoBehaviour
     }
     private void Update()
     {
-        if(policeMoving)
+        //mesafe = Vector3.Distance(transform.position, LevelManager.Instance.follower.transform.position);
+        if (policeMoving)
         {
+
             ChaseHimNoWait();
+
+            if (mesafe > stopDistance)
+            {
+                //chase him i buraya koy
+            }
+            
         }
         
     }
@@ -34,7 +42,6 @@ public class Policeman : MonoBehaviour
 
     public void GetHisDonut(Transform lookAtHim)
     {
-        //mesafe = Vector3.Distance(transform.position, lookAtHim.position);
         Debug.Log("He stole my donut! Chase Him!");
         hisDonut.SetActive(false);
         StartCoroutine(ChaseHim(lookAtHim));
@@ -59,8 +66,3 @@ public class Policeman : MonoBehaviour
 }
 
 
-/*
- if(mesafe > stopDistance)
-        {
-            transform.position += transform.forward * 3f * Time.deltaTime;
-        }*/

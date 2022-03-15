@@ -49,3 +49,28 @@ public class PlayerAnimController : Singleton<PlayerAnimController>
     }
 
 }
+
+
+/* void IdleToWalk()
+    {
+        playerAnimation.SetBool("Idle-Walk",true);
+    }
+
+    public void WalkToSlap()
+    {
+        playerAnimation.SetBool("Walk-Slap", true);
+    }
+
+    public void SlapToRunWithDonuts()
+    {
+        playerAnimation.SetBool("Slap-RunDonut", true);
+
+    }
+
+    public void RunWithDonutsToFALL()
+    {
+
+        playerAnimation.SetBool("RunDonut-Fall", true);
+    }
+
+ * */

@@ -83,8 +83,10 @@ public class PlayerActionsController : MonoBehaviour
         for(int i = 1; i>last; i--)
         {
             Donuts[i].transform.DOMoveX(Donuts[i].transform.position.x + 3, 5f);
+            //Returns The last index of List
         }
     }
+
     public int DonutLastControl(List<GameObject> Donuts)
     {
         int lastIndex = 0;
