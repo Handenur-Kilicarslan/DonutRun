@@ -7,7 +7,7 @@ public class Policeman : MonoBehaviour
     public GameObject hisDonut;
     float mesafe;
     public float stopDistance = 3f;
-    public static bool policeMoving = false;
+    public bool policeMoving = false;
     public float policeSpeed = 6f;
     public BoxCollider boxCollider;
 
@@ -20,22 +20,25 @@ public class Policeman : MonoBehaviour
         //mesafe = Vector3.Distance(transform.position, LevelManager.Instance.follower.transform.position);
         if (policeMoving)
         {
-
             ChaseHimNoWait();
-
-            if (mesafe > stopDistance)
-            {
-                //chase him i buraya koy
-            }
-            
         }
-        
+
     }
 
     public void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.TryGetComponent(out Obstacle obstacle))
         {
+            Debug.Log("Officer Down!");
+            policeMoving = false;
+        }
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.TryGetComponent(out Obstacle obstacle))
+        {
+            Debug.Log("Officer Down!");
             policeMoving = false;
         }
     }
@@ -45,12 +48,6 @@ public class Policeman : MonoBehaviour
         Debug.Log("He stole my donut! Chase Him!");
         hisDonut.SetActive(false);
         StartCoroutine(ChaseHim(lookAtHim));
-
-    }
-    void ChaseHimNoWait()
-    {
-        transform.LookAt(LevelManager.Instance.follower.transform);
-        transform.position += transform.forward * policeSpeed * Time.deltaTime;
     }
 
     public IEnumerator ChaseHim(Transform lookAtHim)
@@ -60,9 +57,23 @@ public class Policeman : MonoBehaviour
         yield return new WaitForSeconds(1f);
         policeMoving = true;
 
-        yield return new WaitForSeconds(1f);
+        //yield return new WaitForSeconds(1f);
         //boxCollider.isTrigger = false;
     }
+    void ChaseHimNoWait()
+    {
+        transform.LookAt(LevelManager.Instance.follower.transform);
+        transform.position += transform.forward * policeSpeed * Time.deltaTime;
+    }
+
+  
 }
 
+
+/*
+            if (mesafe > stopDistance)
+            {
+                //chase him i buraya koy
+            }
+*/
 

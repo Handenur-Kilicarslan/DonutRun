@@ -43,7 +43,7 @@ public class PlayerAnimController : Singleton<PlayerAnimController>
 
     private void OnDisable()
     {
-        // GameManager.OnGameStart -= CharacterMove;
+        GameManager.OnGameStart -= IdleToWalk;
         // GameManager.OnGameWin -= Win;
         //  GameManager.OnGameLose -= Lose;
     }

@@ -40,17 +40,20 @@ public class PlayerActionsController : MonoBehaviour
         {
             Debug.Log("THIS IS POLICEMAN");
             police.GetHisDonut(transform);
+
             Donuts[DonutLastControl(Donuts)].SetActive(true);
             PlayerAnimController.Instance.WalkToSlap();
-            PathFollower.Instance.speed += 1;
+            PathFollower.Instance.speed = 6;
         }
+
 
         if (other.gameObject.CompareTag("End"))
         {
-            Policeman.policeMoving = false;
+            //Policeman.policeMoving = false;
             PathFollower.Instance.speed -= 2;
             DistributeDonuts();
         }
+
         if(other.gameObject.CompareTag("Levha"))
         {
             for(int i = 14; i<Donuts.Count; i++)
@@ -76,6 +79,7 @@ public class PlayerActionsController : MonoBehaviour
     }
 
 
+
     public void DistributeDonuts()
     {
         int last = DonutLastControl(Donuts);
@@ -83,8 +87,9 @@ public class PlayerActionsController : MonoBehaviour
         for(int i = 1; i>last; i--)
         {
             Donuts[i].transform.DOMoveX(Donuts[i].transform.position.x + 3, 5f);
-            //Returns The last index of List
         }
+
+       // GameManager.Instance.WinGame();
     }
 
     public int DonutLastControl(List<GameObject> Donuts)
@@ -99,8 +104,6 @@ public class PlayerActionsController : MonoBehaviour
             }
         }
         return lastIndex;
-
-        
     }
 
 
