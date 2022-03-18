@@ -1,26 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Policeman : MonoBehaviour
 {
     public GameObject hisDonut;
     float mesafe;
-    public float stopDistance = 3f;
+    public float stopDistance = 2f;
     public bool policeMoving = false;
+    public static bool allPoliceMoving = true;
     public float policeSpeed = 6f;
-    public BoxCollider boxCollider;
+    public CapsuleCollider capsuleCollider;
+    public Animator policeAnimation;
+
 
     void Start()
     {
-        boxCollider = gameObject.GetComponent<BoxCollider>();
+        capsuleCollider = gameObject.GetComponent<CapsuleCollider>();
+        policeAnimation = GetComponent<Animator>();
+        allPoliceMoving = true;
     }
     private void Update()
     {
-        //mesafe = Vector3.Distance(transform.position, LevelManager.Instance.follower.transform.position);
-        if (policeMoving)
+        mesafe = Vector3.Distance(transform.position, LevelManager.Instance.follower.transform.position);
+
+        if (policeMoving && allPoliceMoving && mesafe > stopDistance)
         {
             ChaseHimNoWait();
+            Debug.Log("Sen Hala Çalýþýyor musun");
+        }
+        else if(allPoliceMoving == false)
+        {
+
+            Debug.Log("Artýk Sen çalýþmalýsýn");
+            StartCoroutine(StopRunningPoliceman());
         }
 
     }
@@ -52,21 +66,33 @@ public class Policeman : MonoBehaviour
 
     public IEnumerator ChaseHim(Transform lookAtHim)
     {
+
         yield return new WaitForSeconds(.2f);
         transform.LookAt(lookAtHim);
         yield return new WaitForSeconds(1f);
         policeMoving = true;
-
-        //yield return new WaitForSeconds(1f);
-        //boxCollider.isTrigger = false;
+        capsuleCollider.isTrigger = false;
     }
     void ChaseHimNoWait()
     {
+        policeAnimation.SetBool("isRunning", true);
         transform.LookAt(LevelManager.Instance.follower.transform);
         transform.position += transform.forward * policeSpeed * Time.deltaTime;
     }
 
-  
+    public IEnumerator StopRunningPoliceman()
+    {
+        Rigidbody rb = GetComponent<Rigidbody>();
+        yield return new WaitForSeconds(.6f);
+        policeAnimation.SetBool("isRunning", false);
+        yield return new WaitForSeconds(.3f);
+        transform.LookAt(LevelManager.Instance.follower.transform);
+        yield return new WaitForSeconds(.3f);
+        policeMoving = false;
+        rb.isKinematic = true;
+
+    }
+
 }
 
 

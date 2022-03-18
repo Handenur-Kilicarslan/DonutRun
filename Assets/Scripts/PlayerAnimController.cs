@@ -27,10 +27,33 @@ public class PlayerAnimController : Singleton<PlayerAnimController>
 
     }
 
-    public void RunWithDonutsToFALL()
+    public void RunWithDonutsToWalk()
     {
 
         playerAnimation.SetBool("RunDonut-Fall", true);
+    }
+    
+
+    public void RunDonutToRunDonutSlap()
+    {
+        playerAnimation.SetBool("RunDonut-SlapDonut", true);
+    }
+    public void RunDonutSlapExit()
+    {
+        playerAnimation.SetBool("RunDonut-SlapDonut", false);
+    }
+
+    public void FallWalkToWinDance()
+    {
+        playerAnimation.SetBool("EndWalkToWinDance", true);
+    }
+
+    public void RunWithDonutObstacle()
+    {
+
+        playerAnimation.SetBool("Idle-Walk", false);
+        playerAnimation.SetBool("endIdle", true);
+
     }
 
 

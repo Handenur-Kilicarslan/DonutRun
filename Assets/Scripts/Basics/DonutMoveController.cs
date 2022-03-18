@@ -22,7 +22,7 @@ public class DonutMoveController : MonoBehaviour
     private void TouchInputFunction()
     {
         transform.position += Vector3.right * TouchInput.Instance.horizontal * MoveSpeedLR * Time.deltaTime;
-        float xPos = Mathf.Clamp(transform.position.x, -1.7f, 8.5f);
+        float xPos = Mathf.Clamp(transform.position.x, -2.7f, 7f);
         transform.position = new Vector3(xPos, transform.position.y, transform.position.z);
     }
 
