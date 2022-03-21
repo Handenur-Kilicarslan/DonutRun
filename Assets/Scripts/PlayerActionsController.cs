@@ -71,10 +71,8 @@ public class PlayerActionsController : MonoBehaviour
 
         if (other.gameObject.TryGetComponent(out Policeman police))
         {
-            Debug.Log("THIS IS POLICEMAN");
-
+            Debug.Log("This is Policeman");
             police.GetHisDonut(transform);
-
             DOVirtual.DelayedCall(.3f, () => Donuts[DonutLastControl(Donuts)].SetActive(true));
 
             if (DonutLastControl(Donuts) <= 1)

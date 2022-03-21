@@ -10,6 +10,7 @@ public class LevelManager : Singleton<LevelManager>
     private int whichlevel = 0;
     public Text levelText;
     public GameObject follower;
+    public GameObject ragDoll;
     public bool isWin;
 
     //[SerializeField] public List<Scriptable> levels = new List<Scriptable>();

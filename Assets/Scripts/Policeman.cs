@@ -82,14 +82,17 @@ public class Policeman : MonoBehaviour
 
     public IEnumerator StopRunningPoliceman()
     {
+        policeSpeed = 0.5f;
+
+        transform.LookAt(LevelManager.Instance.follower.transform);
+        capsuleCollider.isTrigger = true;
         Rigidbody rb = GetComponent<Rigidbody>();
         yield return new WaitForSeconds(.6f);
         policeAnimation.SetBool("isRunning", false);
-        yield return new WaitForSeconds(.3f);
-        transform.LookAt(LevelManager.Instance.follower.transform);
-        yield return new WaitForSeconds(.3f);
-        policeMoving = false;
+
         rb.isKinematic = true;
+        policeMoving = false;
+        yield return new WaitForSeconds(.3f);
 
     }
 
