@@ -46,6 +46,11 @@ public class Policeman : MonoBehaviour
             Debug.Log("Officer Down!");
             policeMoving = false;
         }
+
+        if(collision.gameObject.TryGetComponent(out Policeman anotherPolice))
+        {
+            Physics.IgnoreCollision(GetComponent<CapsuleCollider>(), anotherPolice.GetComponent<CapsuleCollider>());
+        }
     }
 
     public void OnTriggerEnter(Collider other)
@@ -70,8 +75,10 @@ public class Policeman : MonoBehaviour
         yield return new WaitForSeconds(.2f);
         transform.LookAt(lookAtHim);
         yield return new WaitForSeconds(1f);
-        policeMoving = true;
+
         capsuleCollider.isTrigger = false;
+        policeMoving = true;
+
     }
     void ChaseHimNoWait()
     {
