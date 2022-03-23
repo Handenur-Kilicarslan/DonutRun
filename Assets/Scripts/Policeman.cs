@@ -28,12 +28,9 @@ public class Policeman : MonoBehaviour
         if (policeMoving && allPoliceMoving && mesafe > stopDistance)
         {
             ChaseHimNoWait();
-            Debug.Log("Sen Hala Çalýþýyor musun");
         }
         else if(allPoliceMoving == false)
         {
-
-            Debug.Log("Artýk Sen çalýþmalýsýn");
             StartCoroutine(StopRunningPoliceman());
         }
 

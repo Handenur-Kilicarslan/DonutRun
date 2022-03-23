@@ -6,6 +6,7 @@ TagManager:
   tags:
   - End
   - Levha
+  - Path
   layers:
   - Default
   - TransparentFX

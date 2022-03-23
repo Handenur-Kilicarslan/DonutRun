@@ -15,7 +15,7 @@ public class LevelManager : Singleton<LevelManager>
 
     //[SerializeField] public List<Scriptable> levels = new List<Scriptable>();
     [SerializeField] public List<GameObject> level = new List<GameObject>();
-    //public GameObject MainPlayer;
+     public GameObject MainPlayer;
 
     void Start()
     {

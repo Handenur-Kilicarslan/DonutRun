@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ThisIsTheEnd : MonoBehaviour
 {
+    public List<Animator> HappyAnimationList;
+
     public GameObject winPlayer;
     private void OnTriggerEnter(Collider other)
     {
@@ -14,5 +16,11 @@ public class ThisIsTheEnd : MonoBehaviour
 
             GameManager.Instance.WinGame();
         }
+    }
+
+
+    void MakeThemHappy(int sýnýr)
+    {
+        //sýnýra kadar happy animasyonlarýný oynat
     }
 }

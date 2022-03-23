@@ -20,6 +20,11 @@ public class PathFollower : Singleton<PathFollower>
             // Subscribed to the pathUpdated event so that we're notified if the path changes during the game
             pathCreator.pathUpdated += OnPathChanged;
         }
+        else
+        {
+            //Debug.Log("yol bulamadım");
+            //pathCreator = GameObject.FindGameObjectWithTag("Path").GetComponent<PathCreator>();
+        }
     }
 
     void Update()
@@ -42,6 +47,7 @@ public class PathFollower : Singleton<PathFollower>
     void StartBooleans()
     {
         isMoving = true;
+        pathCreator = GameObject.FindGameObjectWithTag("Path").GetComponent<PathCreator>();
     }
 
     void EndBooleans()

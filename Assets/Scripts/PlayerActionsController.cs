@@ -7,11 +7,15 @@ using DG.Tweening;
 public class PlayerActionsController : MonoBehaviour
 {
     public List<GameObject> Donuts;
-    public GameObject FallingDonuts;
-    public GameObject SlapEffect;
+
+    public Transform donutParent;
+
+    [Header("Scripts to be disabled")]
     public DonutMoveController donutMoveController;
     public SMoveController stackMove;
-
+    [Header("Effects")]
+    public GameObject FallingDonuts;
+    public GameObject SlapEffect;
     private void Start()
     {
         for (int i = 0; i < Donuts.Count; i++)
@@ -55,18 +59,33 @@ public class PlayerActionsController : MonoBehaviour
 
         }
 
-        if (other.gameObject.CompareTag("Levha"))
+        if (other.gameObject.TryGetComponent(out SignBoard signBoard))
         {
-            for (int i = 14; i < Donuts.Count; i++)
+            int n = signBoard.donutFallCount;
+            Debug.Log(n + "hangi donuttan itibaren düssün" + "/n" + DonutLastControl(Donuts) + "Acýk olan donutlar");
+            if (n <= DonutLastControl(Donuts))
             {
-                Donuts[i].SetActive(false);
-                //onun transformundan donutlarý düþür ama donut varsa activeself ile kontrol edersin
+                for (int i = n; i < Donuts.Count; i++)
+                {
+                    Donuts[i].SetActive(false);
+                    //onun transformundan donutlarý düþür ama donut varsa activeself ile kontrol edersin
+                }
+
+                FallingDonuts.transform.position = Donuts[DonutLastControl(Donuts)].transform.position + new Vector3(0, 1, -2);
+                FallingDonuts.transform.parent = null;
+                FallingDonuts.SetActive(true);
             }
+
         }
 
         if (other.gameObject.TryGetComponent(out WallDown wall))
         {
             wall.MakeWallFallDown();
+        }
+
+        if (other.gameObject.TryGetComponent(out BoostBand boost))
+        {
+            StartCoroutine(SpeedUp(3f, 3f));
         }
 
         if (other.gameObject.TryGetComponent(out Policeman police))
@@ -99,7 +118,7 @@ public class PlayerActionsController : MonoBehaviour
             {
                 PlayerAnimController.Instance.SlapToRunWithDonuts();
             }
-            else if (DonutLastControl(Donuts) > 1)
+            else if (DonutLastControl(Donuts) >= 1)
             {
                 PlayerAnimController.Instance.RunDonutSlapExit();
             }
@@ -121,11 +140,13 @@ public class PlayerActionsController : MonoBehaviour
         for (int i = last; i >= 1; i -= 2)
         {
             Debug.Log("Lets Help The Poor People!");
-            Donuts[i].transform.parent = null;
-            Donuts[i].transform.DOMoveX(Donuts[i].transform.position.x + 8, 1f);
-            yield return new WaitForSeconds(.4f);
-            Donuts[i-1].transform.parent = null;
-            Donuts[i - 1].transform.DOMoveX(Donuts[i - 1].transform.position.x - 8, 1f);
+            Donuts[i].transform.parent = donutParent;
+            Donuts[i].transform.DOMove(new Vector3(6.5f, 1, Donuts[i].transform.position.z + 4.5f ), 1f);
+            yield return new WaitForSeconds(.5f);
+            Donuts[i - 1].transform.parent = donutParent;
+            Donuts[i - 1].transform.DOMove(new Vector3(-1,1, Donuts[i - 1].transform.position.z + 4.5f), 1f);
+           // 4.5i arttýr
+            //happy animations
         }
 
         if (last % 2 == 1)
@@ -135,7 +156,7 @@ public class PlayerActionsController : MonoBehaviour
         }
 
         yield return new WaitForSeconds(1);
-       //PlayerAnimController.Instance.FallWalkToWinDance();
+        //PlayerAnimController.Instance.FallWalkToWinDance();
 
     }
 
@@ -172,9 +193,21 @@ public class PlayerActionsController : MonoBehaviour
         yield return new WaitForSeconds(.3f);
         GameObject e = Instantiate(SlapEffect) as GameObject;
         e.transform.position = police.transform.position;
-        PathFollower.Instance.speed = 6;
+        PathFollower.Instance.speed = 6; //PathFollower Speed
     }
 
+    public IEnumerator SpeedUp(float speedAdd, float duration)
+    {
+        float x = speedAdd / 3;
+        PathFollower.Instance.speed += speedAdd;
+        yield return new WaitForSeconds(duration);
+
+        PathFollower.Instance.speed -= x;
+
+        yield return new WaitForSeconds(1f);
+        PathFollower.Instance.speed -= x;
+
+    }
 
     private void OnEnable()
     {
