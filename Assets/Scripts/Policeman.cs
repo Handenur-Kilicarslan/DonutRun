@@ -7,12 +7,13 @@ public class Policeman : MonoBehaviour
 {
     public GameObject hisDonut;
     float mesafe;
-    public float stopDistance = 2f;
+    private float stopDistance = 4.2f;
     public bool policeMoving = false;
     public static bool allPoliceMoving = true;
     public float policeSpeed = 6f;
     public CapsuleCollider capsuleCollider;
     public Animator policeAnimation;
+    public bool haveOneDonut = true;
 
 
     void Start()
@@ -29,7 +30,7 @@ public class Policeman : MonoBehaviour
         {
             ChaseHimNoWait();
         }
-        else if(allPoliceMoving == false)
+        else if (allPoliceMoving == false)
         {
             StartCoroutine(StopRunningPoliceman());
         }
@@ -44,9 +45,15 @@ public class Policeman : MonoBehaviour
             policeMoving = false;
         }
 
-        if(collision.gameObject.TryGetComponent(out Policeman anotherPolice))
+        if (collision.gameObject.TryGetComponent(out Policeman anotherPolice))
         {
             Physics.IgnoreCollision(GetComponent<CapsuleCollider>(), anotherPolice.GetComponent<CapsuleCollider>());
+        }
+
+        if (collision.gameObject.TryGetComponent(out PlayerActionsController player))
+        {
+            Physics.IgnoreCollision(GetComponent<CapsuleCollider>(), player.GetComponent<BoxCollider>());
+
         }
     }
 
@@ -69,12 +76,17 @@ public class Policeman : MonoBehaviour
     public IEnumerator ChaseHim(Transform lookAtHim)
     {
 
-        yield return new WaitForSeconds(.2f);
-        transform.LookAt(lookAtHim);
-        yield return new WaitForSeconds(1f);
 
+        yield return new WaitForSeconds(.3f);
+        transform.LookAt(lookAtHim);
+
+        yield return new WaitForSeconds(.4f);
         capsuleCollider.isTrigger = false;
+
+        yield return new WaitForSeconds(.5f);
         policeMoving = true;
+
+
 
     }
     void ChaseHimNoWait()
@@ -87,7 +99,6 @@ public class Policeman : MonoBehaviour
     public IEnumerator StopRunningPoliceman()
     {
         policeSpeed = 0.5f;
-
         transform.LookAt(LevelManager.Instance.follower.transform);
         capsuleCollider.isTrigger = true;
         Rigidbody rb = GetComponent<Rigidbody>();

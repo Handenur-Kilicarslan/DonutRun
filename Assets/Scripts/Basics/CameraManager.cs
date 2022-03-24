@@ -6,6 +6,7 @@ using Cinemachine;
 public class CameraManager : Singleton<CameraManager>
 {
     [SerializeField] CinemachineVirtualCamera FollowCam;
+    public CinemachineVirtualCamera WinCam;
     public ParticleSystem Confetti;
 
     void Start()
@@ -25,6 +26,11 @@ public class CameraManager : Singleton<CameraManager>
     public void StartCameras()
     {
         FollowCam.Priority = 5;
+    }
+
+    public void SwitchWinCamera()
+    {
+        WinCam.Priority = 6;
     }
 
     private void OnEnable()

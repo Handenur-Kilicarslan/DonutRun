@@ -25,7 +25,7 @@ public class PlayerActionsController : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log("Active Donuts : " + DonutLastControl(Donuts));
+        //Debug.Log("Active Donuts : " + DonutLastControl(Donuts));
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -53,8 +53,8 @@ public class PlayerActionsController : MonoBehaviour
         if (other.gameObject.CompareTag("End"))
         {
             Policeman.allPoliceMoving = false;
-            PlayerAnimController.Instance.RunWithDonutsToWalk();
-            PathFollower.Instance.speed -= 1;
+            //PlayerAnimController.Instance.RunWithDonutsToWalk();
+            PathFollower.Instance.speed -= .8f;
             StartCoroutine(DistributeDonutsandStopMoving());
 
         }
@@ -92,7 +92,11 @@ public class PlayerActionsController : MonoBehaviour
         {
             Debug.Log("This is Policeman");
             police.GetHisDonut(transform);
-            DOVirtual.DelayedCall(.3f, () => Donuts[DonutLastControl(Donuts)].SetActive(true));
+            if(police.haveOneDonut)
+            {
+                DOVirtual.DelayedCall(.3f, () => Donuts[DonutLastControl(Donuts)].SetActive(true));
+                police.haveOneDonut = false;
+            }
 
             if (DonutLastControl(Donuts) <= 1)
             {
@@ -135,29 +139,7 @@ public class PlayerActionsController : MonoBehaviour
         donutMoveController.enabled = false;
         stackMove.enabled = false;
 
-
-        int last = DonutLastControl(Donuts);
-        for (int i = last; i >= 1; i -= 2)
-        {
-            Debug.Log("Lets Help The Poor People!");
-            Donuts[i].transform.parent = donutParent;
-            Donuts[i].transform.DOMove(new Vector3(6.5f, 1, Donuts[i].transform.position.z + 4.5f ), 1f);
-            yield return new WaitForSeconds(.5f);
-            Donuts[i - 1].transform.parent = donutParent;
-            Donuts[i - 1].transform.DOMove(new Vector3(-1,1, Donuts[i - 1].transform.position.z + 4.5f), 1f);
-           // 4.5i arttýr
-            //happy animations
-        }
-
-        if (last % 2 == 1)
-        {
-            Debug.Log("Tek");
-            Donuts[0].transform.DOMoveX(Donuts[0].transform.position.x + 8, 1f);
-        }
-
-        yield return new WaitForSeconds(1);
         //PlayerAnimController.Instance.FallWalkToWinDance();
-
     }
 
     public int DonutLastControl(List<GameObject> Donuts)

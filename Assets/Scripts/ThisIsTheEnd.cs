@@ -9,8 +9,9 @@ public class ThisIsTheEnd : MonoBehaviour
     public GameObject winPlayer;
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.TryGetComponent(out PlayerActionsController player))
+        if (other.gameObject.TryGetComponent(out PlayerActionsController player))
         {
+            //player.gameObject.GetComponent<MeshRenderer>().enabled = false;
             player.gameObject.SetActive(false);
             winPlayer.SetActive(true);
 
@@ -19,8 +20,7 @@ public class ThisIsTheEnd : MonoBehaviour
     }
 
 
-    void MakeThemHappy(int sýnýr)
-    {
-        //sýnýra kadar happy animasyonlarýný oynat
-    }
+
+
+
 }
