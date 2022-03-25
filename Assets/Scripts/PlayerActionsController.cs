@@ -96,6 +96,7 @@ public class PlayerActionsController : MonoBehaviour
             {
                 DOVirtual.DelayedCall(.3f, () => Donuts[DonutLastControl(Donuts)].SetActive(true));
                 police.haveOneDonut = false;
+                StartCoroutine(SlapEffectDo(police.gameObject));
             }
 
             if (DonutLastControl(Donuts) <= 1)
@@ -107,7 +108,6 @@ public class PlayerActionsController : MonoBehaviour
                 PlayerAnimController.Instance.RunDonutToRunDonutSlap();
             }
 
-            StartCoroutine(SlapEffectDo(police.gameObject));
         }
 
     }

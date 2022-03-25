@@ -36,7 +36,7 @@ public class LevelManager : Singleton<LevelManager>
         //Instantiate(levels[whichlevel].LevelPrefab, Vector3.zero, Quaternion.Euler(new Vector3(0, 180, 0))); //Level Instantiate
         //MainPlayer = Instantiate(levels[whichlevel].Player, Vector3.zero, Quaternion.identity); //Player Instantiate
 
-        //levelText.text = "Level " + (whichlevel + 1);
+        levelText.text = "Level " + (whichlevel + 1);
     }
 
     public void NextLevel()

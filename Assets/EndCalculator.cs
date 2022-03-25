@@ -45,11 +45,11 @@ public class EndCalculator : MonoBehaviour
             Donuts[i].transform.parent = parentDonut;
 
             poorPeoplePos = PoorPeoples[n].transform.GetChild(0).transform.position;
-            Donuts[i].transform.DOMove(poorPeoplePos, .4f);
+            Donuts[i].transform.DOMove(poorPeoplePos, .45f);
 
             HappyAnimationList[n].SetBool("beHappy", true);
 
-            yield return new WaitForSeconds(.4f);
+            yield return new WaitForSeconds(.5f);
             n++;
             Debug.Log("Poor peoples : " + n);
         }
