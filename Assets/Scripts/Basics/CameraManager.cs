@@ -15,14 +15,16 @@ public class CameraManager : Singleton<CameraManager>
     {
         Confetti.Stop();
         FollowCam.Follow = LevelManager.Instance.MainPlayer.transform;
-        if (PlayerPrefs.GetInt("whichlevel") == 1)
+        
+        if(PlayerPrefs.GetInt("whichlevel") == 0)
         {
-            StartCamLevel1.gameObject.SetActive(false);
-            StartCamOtherLevels.gameObject.SetActive(true);
+            StartCamLevel1.gameObject.SetActive(true);
+            StartCamOtherLevels.gameObject.SetActive(false);
         }
         else
         {
-            StartCamLevel1.gameObject.SetActive(true);
+
+            StartCamLevel1.gameObject.SetActive(false);
             StartCamOtherLevels.gameObject.SetActive(false);
         }
     }

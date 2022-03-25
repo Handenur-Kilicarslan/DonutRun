@@ -62,4 +62,8 @@ public class LevelManager : Singleton<LevelManager>
     {
         return whichlevel;
     }
+    public int GetCurrentLevelIndex()
+    {
+        return whichlevel;
+    }
 }
