@@ -100,13 +100,17 @@ public class Policeman : MonoBehaviour
     {
         policeSpeed = 0.5f;
         transform.LookAt(LevelManager.Instance.follower.transform);
+
         capsuleCollider.isTrigger = true;
         Rigidbody rb = GetComponent<Rigidbody>();
+
         yield return new WaitForSeconds(.6f);
+
         policeAnimation.SetBool("isRunning", false);
 
         rb.isKinematic = true;
         policeMoving = false;
+
         yield return new WaitForSeconds(.3f);
 
     }

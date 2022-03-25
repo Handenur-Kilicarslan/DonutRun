@@ -25,7 +25,7 @@ public class EndCalculator : MonoBehaviour
             CameraManager.Instance.SwitchWinCamera();
             donutCount = player.DonutLastControl(player.Donuts);
 
-            StartCoroutine(DistributeDonuts(player.Donuts, donutCount, player.donutParent));
+            StartCoroutine(DistributeDonuts(player.Donuts, donutCount - 1, player.donutParent));
             
             LastDonutPos = donutCount;
             finalEndTrigger.transform.position =
@@ -37,26 +37,29 @@ public class EndCalculator : MonoBehaviour
 
     public IEnumerator DistributeDonuts(List<GameObject> Donuts, int donutCount, Transform parentDonut)
     {
-        int n = 0;
+        int n = 0; //donutlarý üstten(sondan)daðýttðým ama insanlara ilk sýradan verdiðim için ayrý bir n deðiþkenini arttýracaðým
         Vector3 poorPeoplePos;
-        Debug.Log("DonutCount : " + donutCount);
-        for (int i = donutCount - 1; i >= 0; i--)
-        {
-            Donuts[i].transform.parent = parentDonut;
 
-            poorPeoplePos = PoorPeoples[n].transform.GetChild(0).transform.position;
-            Donuts[i].transform.DOMove(poorPeoplePos, .45f);
+        for (int i = donutCount; i >= 0; i--)
+        {
+            Donuts[i].transform.parent = parentDonut; //parentý ile hareketine devam etmesin diye parent'i deðiþtiriyorum
+
+            poorPeoplePos = PoorPeoples[n].transform.GetChild(0).transform.position; //targetlarýn konumunu alýyorum
+
+            Donuts[i].transform.DOMove(poorPeoplePos, .45f); //targetlara gidiyor
 
             HappyAnimationList[n].SetBool("beHappy", true);
 
             yield return new WaitForSeconds(.5f);
             n++;
-            Debug.Log("Poor peoples : " + n);
+          
         }
 
     }
 
 
+    //Debug.Log("DonutCount : " + donutCount);
+    //Debug.Log("Poor peoples : " + n);
 
 
 }

@@ -25,7 +25,7 @@ public class PlayerActionsController : MonoBehaviour
     }
     private void Update()
     {
-        //Debug.Log("Active Donuts : " + DonutLastControl(Donuts));
+        //Debug.Log("Active Donuts : " + DonutLastControl(Donuts)); 
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -43,32 +43,24 @@ public class PlayerActionsController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.TryGetComponent(out CollectableController donut))
-        {
-            Debug.Log("A Donut!");
-            donut.gameObject.SetActive(false);
-            Donuts[DonutLastControl(Donuts)].SetActive(true);
-        }
-
         if (other.gameObject.CompareTag("End"))
         {
             Policeman.allPoliceMoving = false;
             //PlayerAnimController.Instance.RunWithDonutsToWalk();
-            PathFollower.Instance.speed -= .8f;
+            PathFollower.Instance.speed -= .5f;
             StartCoroutine(DistributeDonutsandStopMoving());
 
         }
 
         if (other.gameObject.TryGetComponent(out SignBoard signBoard))
         {
-            int n = signBoard.donutFallCount;
-            Debug.Log(n + "hangi donuttan itibaren düssün" + "/n" + DonutLastControl(Donuts) + "Acýk olan donutlar");
+            int n = signBoard.donutFallCount;   //Debug.Log(n + "hangi donuttan itibaren düssün" + "/n" + DonutLastControl(Donuts) + "Acýk olan donutlar");
+
             if (n <= DonutLastControl(Donuts))
             {
                 for (int i = n; i < Donuts.Count; i++)
                 {
-                    Donuts[i].SetActive(false);
-                    //onun transformundan donutlarý düþür ama donut varsa activeself ile kontrol edersin
+                    Donuts[i].SetActive(false);  //onun transformundan donutlarý düþür ama donut varsa activeself ile kontrol edersin
                 }
 
                 FallingDonuts.transform.position = Donuts[DonutLastControl(Donuts)].transform.position + new Vector3(0, 1, -2);
@@ -85,15 +77,16 @@ public class PlayerActionsController : MonoBehaviour
 
         if (other.gameObject.TryGetComponent(out BoostBand boost))
         {
-            StartCoroutine(SpeedUp(3f, 3f));
+            StartCoroutine(SpeedUp(4f, 3f));
         }
 
         if (other.gameObject.TryGetComponent(out Policeman police))
         {
             Debug.Log("This is Policeman");
-            police.GetHisDonut(transform);
+
             if(police.haveOneDonut)
             {
+                police.GetHisDonut(transform);
                 DOVirtual.DelayedCall(.3f, () => Donuts[DonutLastControl(Donuts)].SetActive(true));
                 police.haveOneDonut = false;
                 StartCoroutine(SlapEffectDo(police.gameObject));
@@ -127,6 +120,7 @@ public class PlayerActionsController : MonoBehaviour
                 PlayerAnimController.Instance.RunDonutSlapExit();
             }
 
+            //PathFollower.Instance.speed = 6; //PathFollower Speed
         }
     }
 
@@ -134,8 +128,9 @@ public class PlayerActionsController : MonoBehaviour
 
     public IEnumerator DistributeDonutsandStopMoving()
     {
-        transform.parent.transform.DOLocalMoveX(-0.908f, .5f);
         yield return new WaitForSeconds(.5f);
+        transform.parent.transform.DOLocalMoveX(-0.908f, .5f);
+      
         donutMoveController.enabled = false;
         stackMove.enabled = false;
 
@@ -175,18 +170,17 @@ public class PlayerActionsController : MonoBehaviour
         yield return new WaitForSeconds(.3f);
         GameObject e = Instantiate(SlapEffect) as GameObject;
         e.transform.position = police.transform.position;
-        PathFollower.Instance.speed = 6; //PathFollower Speed
     }
 
     public IEnumerator SpeedUp(float speedAdd, float duration)
     {
-        float x = speedAdd / 3;
+        float x = speedAdd / 2;
         PathFollower.Instance.speed += speedAdd;
         yield return new WaitForSeconds(duration);
 
         PathFollower.Instance.speed -= x;
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.5f);
         PathFollower.Instance.speed -= x;
 
     }
