@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using TapticPlugin;
 
 public class PlayerActionsController : MonoBehaviour
 {
@@ -34,7 +35,7 @@ public class PlayerActionsController : MonoBehaviour
         {
             Debug.Log("Obstacle");
             PlayerAnimController.Instance.RunWithDonutObstacle();
-
+            TapticPlugin.TapticManager.Impact(ImpactFeedback.Heavy);
             DonutsFalling();
             DOVirtual.DelayedCall(.5f, () => Policeman.allPoliceMoving = false);
             GameManager.Instance.LoseGame();
@@ -67,6 +68,8 @@ public class PlayerActionsController : MonoBehaviour
                 GameObject FallingDonuts2 = Instantiate(FallingDonuts) as GameObject;
                 FallingDonuts2.transform.position = Donuts[DonutLastControl(Donuts)].transform.position + new Vector3(0, 1, -2);
 
+                TapticPlugin.TapticManager.Impact(ImpactFeedback.Light);
+
                 /*
                 FallingDonuts.transform.position = Donuts[DonutLastControl(Donuts)].transform.position + new Vector3(0, 1, -2);
                 FallingDonuts.transform.parent = null;
@@ -92,13 +95,15 @@ public class PlayerActionsController : MonoBehaviour
 
             if(police.haveOneDonut)
             {
+                TapticPlugin.TapticManager.Impact(ImpactFeedback.Medium);
                 police.GetHisDonut(transform);
                 DOVirtual.DelayedCall(.3f, () => Donuts[DonutLastControl(Donuts)].SetActive(true));
                 police.haveOneDonut = false;
+
                 StartCoroutine(SlapEffectDo(police.gameObject));
             }
 
-            if (DonutLastControl(Donuts) <= 1)
+            if (DonutLastControl(Donuts) < 1)
             {
                 PlayerAnimController.Instance.WalkToSlap();
                 PathFollower.Instance.speed = 6;
@@ -122,7 +127,7 @@ public class PlayerActionsController : MonoBehaviour
             {
                 PlayerAnimController.Instance.SlapToRunWithDonuts();
             }
-            else if (DonutLastControl(Donuts) >= 1)
+            else if (DonutLastControl(Donuts) > 1)
             {
                 PlayerAnimController.Instance.RunDonutSlapExit();
             }
