@@ -109,7 +109,7 @@ public class Policeman : MonoBehaviour
 
     IEnumerator ChaseHimWithSpeedIEN()
     {
-        ChaseHimWithSpeed(policeSpeed + 4f);
+        ChaseHimWithSpeed(policeSpeed + 4.3f);
         yield return new WaitForSeconds(3f);
         PlayerActionsController.Instance.SpeedUpPolice = false;
     }
