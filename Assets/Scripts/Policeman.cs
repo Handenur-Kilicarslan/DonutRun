@@ -16,6 +16,7 @@ public class Policeman : MonoBehaviour
     public bool haveOneDonut = true;
 
 
+
     void Start()
     {
         capsuleCollider = gameObject.GetComponent<CapsuleCollider>();
@@ -28,7 +29,17 @@ public class Policeman : MonoBehaviour
 
         if (policeMoving && allPoliceMoving && mesafe > stopDistance)
         {
-            ChaseHimNoWait();
+
+            if (PlayerActionsController.Instance.SpeedUpPolice)
+            {
+                Debug.Log("Player Hýzlandý");
+                StartCoroutine(ChaseHimWithSpeedIEN());
+            }
+            else
+            {
+                Debug.Log("Player Normal Hýzda gidiyor");
+                ChaseHimWithSpeed(policeSpeed);
+            }
         }
         else if (allPoliceMoving == false)
         {
@@ -73,10 +84,10 @@ public class Policeman : MonoBehaviour
         StartCoroutine(ChaseHim(lookAtHim));
     }
 
+
+
     public IEnumerator ChaseHim(Transform lookAtHim)
     {
-
-
         yield return new WaitForSeconds(.3f);
         transform.LookAt(lookAtHim);
 
@@ -89,13 +100,19 @@ public class Policeman : MonoBehaviour
 
 
     }
-    void ChaseHimNoWait()
+    void ChaseHimWithSpeed(float policeSpeed)
     {
         policeAnimation.SetBool("isRunning", true);
         transform.LookAt(LevelManager.Instance.follower.transform);
         transform.position += transform.forward * policeSpeed * Time.deltaTime;
     }
 
+    IEnumerator ChaseHimWithSpeedIEN()
+    {
+        ChaseHimWithSpeed(policeSpeed + 4f);
+        yield return new WaitForSeconds(3f);
+        PlayerActionsController.Instance.SpeedUpPolice = false;
+    }
     public IEnumerator StopRunningPoliceman()
     {
         policeSpeed = 0.5f;

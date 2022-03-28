@@ -5,10 +5,9 @@ using UnityEngine;
 using DG.Tweening;
 using TapticPlugin;
 
-public class PlayerActionsController : MonoBehaviour
+public class PlayerActionsController : Singleton<PlayerActionsController>
 {
     public List<GameObject> Donuts;
-
     public Transform donutParent;
 
     [Header("Scripts to be disabled")]
@@ -17,6 +16,7 @@ public class PlayerActionsController : MonoBehaviour
     [Header("Effects")]
     public GameObject FallingDonuts;
     public GameObject SlapEffect;
+    public bool SpeedUpPolice;
     private void Start()
     {
         for (int i = 0; i < Donuts.Count; i++)
@@ -87,13 +87,15 @@ public class PlayerActionsController : MonoBehaviour
         if (other.gameObject.TryGetComponent(out BoostBand boost))
         {
             StartCoroutine(SpeedUp(4f, 3f));
+            SpeedUpPolice = true;
+            
         }
 
         if (other.gameObject.TryGetComponent(out Policeman police))
         {
             Debug.Log("This is Policeman");
 
-            if(police.haveOneDonut)
+            if (police.haveOneDonut)
             {
                 TapticPlugin.TapticManager.Impact(ImpactFeedback.Medium);
                 police.GetHisDonut(transform);
@@ -169,7 +171,7 @@ public class PlayerActionsController : MonoBehaviour
         {
             GameObject FallingDonuts2 = Instantiate(FallingDonuts) as GameObject;
             FallingDonuts2.transform.position = Donuts[DonutLastControl(Donuts)].transform.position;
-            
+
             for (int i = 0; i < n; i++)
             {
                 Donuts[i].SetActive(false);
@@ -183,7 +185,7 @@ public class PlayerActionsController : MonoBehaviour
         yield return new WaitForSeconds(.3f);
         GameObject e = Instantiate(SlapEffect) as GameObject;
         e.transform.position = police.transform.position;
-        
+
     }
 
     public IEnumerator SpeedUp(float speedAdd, float duration)
