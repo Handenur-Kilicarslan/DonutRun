@@ -69,11 +69,14 @@ public class PlayerActionsController : Singleton<PlayerActionsController>
                     Donuts[i].SetActive(false);  //onun transformundan donutlarý düþür ama donut varsa activeself ile kontrol edersin
                 }
 
-
-                GameObject FallingDonuts2 = Instantiate(FallingDonuts) as GameObject;
-                FallingDonuts2.transform.position = Donuts[DonutLastControl(Donuts)].transform.position + new Vector3(0, 1, -2);
-
-                TapticPlugin.TapticManager.Impact(ImpactFeedback.Light);
+                if(signBoard.isCrashed)
+                {
+                    GameObject FallingDonuts2 = Instantiate(FallingDonuts) as GameObject;
+                    FallingDonuts2.transform.position = Donuts[DonutLastControl(Donuts)].transform.position + new Vector3(0, 1, -2);
+                    TapticPlugin.TapticManager.Impact(ImpactFeedback.Light);
+                    signBoard.isCrashed = false;
+                }
+               
 
                 /*
                 FallingDonuts.transform.position = Donuts[DonutLastControl(Donuts)].transform.position + new Vector3(0, 1, -2);
