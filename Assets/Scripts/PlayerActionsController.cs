@@ -13,12 +13,17 @@ public class PlayerActionsController : Singleton<PlayerActionsController>
     [Header("Scripts to be disabled")]
     public DonutMoveController donutMoveController;
     public SMoveController stackMove;
+
     [Header("Effects")]
+    public GameObject fastTrail;
     public GameObject FallingDonuts;
     public GameObject SlapEffect;
+
+    [Header("Booleans")]
     public bool SpeedUpPolice;
     private void Start()
     {
+        fastTrail.SetActive(false);
         for (int i = 0; i < Donuts.Count; i++)
         {
             Donuts[i].SetActive(false);
@@ -56,6 +61,10 @@ public class PlayerActionsController : Singleton<PlayerActionsController>
         if(other.gameObject.TryGetComponent(out Slower slowedObject))
         {
             StartCoroutine(SpeedDown(3f, 1.5f));
+            if(fastTrail.activeSelf)
+            {
+                fastTrail.SetActive(false);
+            }
         }
 
         if (other.gameObject.TryGetComponent(out SignBoard signBoard))
@@ -188,6 +197,7 @@ public class PlayerActionsController : Singleton<PlayerActionsController>
 
     }
 
+    
     public IEnumerator SlapEffectDo(GameObject police)
     {
         yield return new WaitForSeconds(.3f);
@@ -199,6 +209,7 @@ public class PlayerActionsController : Singleton<PlayerActionsController>
     public IEnumerator SpeedUp(float speedAdd, float duration)
     {
         float x = speedAdd / 2;
+        fastTrail.SetActive(true);
         PathFollower.Instance.speed += speedAdd;
         yield return new WaitForSeconds(duration);
 
@@ -206,6 +217,8 @@ public class PlayerActionsController : Singleton<PlayerActionsController>
 
         yield return new WaitForSeconds(.5f);
         PathFollower.Instance.speed -= x;
+
+        fastTrail.SetActive(false);
 
     }
 
