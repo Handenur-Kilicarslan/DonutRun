@@ -34,7 +34,7 @@ public class PlayerActionsController : Singleton<PlayerActionsController>
         if (collision.gameObject.TryGetComponent(out Obstacle obstacle))
         {
             Debug.Log("Obstacle");
-            PlayerAnimController.Instance.RunWithDonutObstacle();
+
             TapticPlugin.TapticManager.Impact(ImpactFeedback.Heavy);
             DonutsFalling();
             DOVirtual.DelayedCall(.5f, () => Policeman.allPoliceMoving = false);
@@ -51,6 +51,11 @@ public class PlayerActionsController : Singleton<PlayerActionsController>
             PathFollower.Instance.speed -= .5f;
             StartCoroutine(DistributeDonutsandStopMoving());
 
+        }
+
+        if(other.gameObject.TryGetComponent(out Slower slowedObject))
+        {
+            StartCoroutine(SpeedDown(3f, 1.5f));
         }
 
         if (other.gameObject.TryGetComponent(out SignBoard signBoard))
@@ -198,6 +203,15 @@ public class PlayerActionsController : Singleton<PlayerActionsController>
 
         yield return new WaitForSeconds(.5f);
         PathFollower.Instance.speed -= x;
+
+    }
+
+    public IEnumerator SpeedDown(float speedSub, float duration)
+    {
+        
+        PathFollower.Instance.speed -= speedSub;
+        yield return new WaitForSeconds(duration);
+        PathFollower.Instance.speed += speedSub;
 
     }
 
