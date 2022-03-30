@@ -15,6 +15,7 @@ public class PlayerActionsController : Singleton<PlayerActionsController>
     public SMoveController stackMove;
 
     [Header("Effects")]
+    public List<GameObject> FallingDonutsList;
     public GameObject fastTrail;
     public GameObject FallingDonuts;
     public GameObject SlapEffect;
@@ -58,10 +59,10 @@ public class PlayerActionsController : Singleton<PlayerActionsController>
 
         }
 
-        if(other.gameObject.TryGetComponent(out Slower slowedObject))
+        if (other.gameObject.TryGetComponent(out Slower slowedObject))
         {
             StartCoroutine(SpeedDown(3f, 1.5f));
-            if(fastTrail.activeSelf)
+            if (fastTrail.activeSelf)
             {
                 fastTrail.SetActive(false);
             }
@@ -78,14 +79,14 @@ public class PlayerActionsController : Singleton<PlayerActionsController>
                     Donuts[i].SetActive(false);  //onun transformundan donutlarý düþür ama donut varsa activeself ile kontrol edersin
                 }
 
-                if(signBoard.isCrashed)
+                if (signBoard.isCrashed)
                 {
                     GameObject FallingDonuts2 = Instantiate(FallingDonuts) as GameObject;
-                    FallingDonuts2.transform.position = Donuts[DonutLastControl(Donuts)].transform.position + new Vector3(0, 1, -2);
+                    FallingDonuts2.transform.position = Donuts[DonutLastControl(Donuts)].transform.position + new Vector3(0, 2, -2);
                     TapticPlugin.TapticManager.Impact(ImpactFeedback.Light);
                     signBoard.isCrashed = false;
                 }
-               
+
 
                 /*
                 FallingDonuts.transform.position = Donuts[DonutLastControl(Donuts)].transform.position + new Vector3(0, 1, -2);
@@ -105,7 +106,7 @@ public class PlayerActionsController : Singleton<PlayerActionsController>
         {
             StartCoroutine(SpeedUp(4f, 3f));
             SpeedUpPolice = true;
-            
+
         }
 
         if (other.gameObject.TryGetComponent(out Policeman police))
@@ -125,7 +126,7 @@ public class PlayerActionsController : Singleton<PlayerActionsController>
             if (DonutLastControl(Donuts) < 1)
             {
                 PlayerAnimController.Instance.WalkToSlap();
-                PathFollower.Instance.speed = 6;
+                PathFollower.Instance.speed = 6.5f; //--------------------------------------------------
             }
             else if (DonutLastControl(Donuts) > 1)
             {
@@ -184,20 +185,27 @@ public class PlayerActionsController : Singleton<PlayerActionsController>
     public void DonutsFalling()
     {
         int n = DonutLastControl(Donuts);
-        if (n != 0)
-        {
-            GameObject FallingDonuts2 = Instantiate(FallingDonuts) as GameObject;
-            FallingDonuts2.transform.position = Donuts[DonutLastControl(Donuts)].transform.position;
 
+        for (int i = 0; i < n; i++)
+        {
+            Donuts[i].SetActive(false);
+        }
+
+        if (n != 0 )
+        {
             for (int i = 0; i < n; i++)
             {
-                Donuts[i].SetActive(false);
+                FallingDonutsList[i].SetActive(true);
             }
         }
 
+            //GameObject FallingDonuts2 = Instantiate(FallingDonuts) as GameObject;
+           //FallingDonuts2.transform.position = Donuts[DonutLastControl(Donuts)].transform.position;
+        
+
     }
 
-    
+
     public IEnumerator SlapEffectDo(GameObject police)
     {
         yield return new WaitForSeconds(.3f);
@@ -224,7 +232,7 @@ public class PlayerActionsController : Singleton<PlayerActionsController>
 
     public IEnumerator SpeedDown(float speedSub, float duration)
     {
-        
+
         PathFollower.Instance.speed -= speedSub;
         yield return new WaitForSeconds(duration);
         PathFollower.Instance.speed += speedSub;
