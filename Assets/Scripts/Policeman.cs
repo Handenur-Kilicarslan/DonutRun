@@ -22,6 +22,7 @@ public class Policeman : MonoBehaviour
         capsuleCollider = gameObject.GetComponent<CapsuleCollider>();
         policeAnimation = GetComponent<Animator>();
         allPoliceMoving = true;
+        policeSpeed += .75f;
     }
     private void Update()
     {
