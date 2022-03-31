@@ -53,8 +53,8 @@ public class PlayerActionsController : Singleton<PlayerActionsController>
         if (other.gameObject.CompareTag("End"))
         {
             Policeman.allPoliceMoving = false;
-            //PlayerAnimController.Instance.RunWithDonutsToWalk();
-            PathFollower.Instance.speed -= .5f;
+
+            PathFollower.Instance.speed += 4f;
             StartCoroutine(DistributeDonutsandStopMoving());
 
         }
@@ -161,7 +161,7 @@ public class PlayerActionsController : Singleton<PlayerActionsController>
     public IEnumerator DistributeDonutsandStopMoving()
     {
         transform.parent.transform.DOLocalMoveX(-0.908f, .5f);
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.3f);
         donutMoveController.enabled = false;
         stackMove.enabled = false;
 

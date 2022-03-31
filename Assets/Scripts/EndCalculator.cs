@@ -18,6 +18,7 @@ public class EndCalculator : MonoBehaviour
             HappyAnimationList[i] = PoorPeoples[i].GetComponent<Animator>();
         }
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.TryGetComponent(out PlayerActionsController player))
@@ -37,6 +38,7 @@ public class EndCalculator : MonoBehaviour
 
     public IEnumerator DistributeDonuts(List<GameObject> Donuts, int donutCount, Transform parentDonut)
     {
+        yield return new WaitForSeconds(.4f);
         int n = 0;
         Vector3 poorPeoplePos;
         Debug.Log("DonutCount : " + donutCount);
@@ -45,11 +47,11 @@ public class EndCalculator : MonoBehaviour
             Donuts[i].transform.parent = parentDonut;
 
             poorPeoplePos = PoorPeoples[n].transform.GetChild(0).transform.position;
-            Donuts[i].transform.DOMove(poorPeoplePos, .7f);
+            Donuts[i].transform.DOMove(poorPeoplePos, .25f); //.7f di
 
             HappyAnimationList[n].SetBool("beHappy", true);
 
-            yield return new WaitForSeconds(.4f);
+            yield return new WaitForSeconds(.2f); //.4f
             n++;
             Debug.Log("Poor peoples : " + n);
         }
