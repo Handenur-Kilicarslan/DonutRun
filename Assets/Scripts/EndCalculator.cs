@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System;
 
 public class EndCalculator : MonoBehaviour
 {
@@ -17,7 +18,10 @@ public class EndCalculator : MonoBehaviour
         {
             HappyAnimationList[i] = PoorPeoples[i].GetComponent<Animator>();
         }
+
     }
+
+    
 
     private void OnTriggerEnter(Collider other)
     {
